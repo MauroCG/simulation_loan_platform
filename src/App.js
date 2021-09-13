@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import React, { useState } from 'react';
+
+import RequestLoanForm from "./components/RequestLoanForm";
 
 
 function App() {
-  const [currentTime, setCurrentTime] = useState(0);
-
-  useEffect(() => {
-    fetch('/time').then(res => res.json()).then(data => {
-      setCurrentTime(data.time);
-    });
-  }, []);
-
+  const [loanDecision, setLoanDecision] = useState("");
   return (
     <>
-      <p>The current time is {currentTime}</p>
+      <RequestLoanForm setDecision={setLoanDecision} />
+      <center><h2>Your loan request has been: {loanDecision}</h2></center>
     </>
   );
 }
