@@ -1,6 +1,6 @@
 # Basic loan platform simulation
 
-This project is part of a test interview for a job application with LendingFront. The idea was to
+This project is part of a interview test for a job application with LendingFront. The idea was to
 develop a basic system that simulates a loan platform for small business.
 
 Technologies used:
