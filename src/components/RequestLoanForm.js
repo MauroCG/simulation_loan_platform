@@ -3,10 +3,46 @@ import { useForm, Controller } from "react-hook-form";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import InputAdornment from '@material-ui/core/InputAdornment';
+import { makeStyles } from '@material-ui/core/styles';
 
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& label.Mui-focused': {
+      color: 'blue',
+    },
+	'& label': {
+      color: 'white',
+    },
+	'& .MuiInputBase-root': {
+      color: 'white',
+    },
+    justifyContent: 'center',
+	width: '43%',
+	padding: '.5em',
+	borderRadius: '2%',
+	backgroundColor: '#393d45',
+  },
+  textField: {
+    margin: theme.spacing(1),
+    width: '40vw',
+	borderRadius: '5%',
+	backgroundColor: '#777777',
+  },
+  button: {
+	width: '35vw',
+  },
+  adornedStart: {
+    '& .MuiTypography-root': {
+      color: 'white',
+    },
+  },
+}));
 
 export default function RequestLoanForm({ setDecision }) {
 	const { control, handleSubmit, formState: { errors } } = useForm();
+	const classes = useStyles();
 
 	const onSubmit = (data) => {
 					   setDecision("...");
@@ -24,7 +60,7 @@ export default function RequestLoanForm({ setDecision }) {
 					 };
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form onSubmit={handleSubmit(onSubmit)} className={classes.root}>
 		  <Grid container alignItems="center" justify="center" direction="column">
 		    <Grid item>
 			  <Controller
@@ -35,12 +71,15 @@ export default function RequestLoanForm({ setDecision }) {
 										 {...field}
 										 label="Tax ID"
 										 type="number"
+										 variant="filled"
+										 className={classes.textField}
+
 									   />}
 			  />
-			  { errors.taxID?.type === "required" && <p>The tax id is required</p> }
-			  { errors.taxID?.type === "minLength" && <p>The length of tax id must be 9</p> }
-			  { errors.taxID?.type === "maxLength" && <p>The length of tax id must be 9</p> }
 			</Grid>
+			{ errors.taxID?.type === "required" && <p>The tax id is required</p> }
+			{ errors.taxID?.type === "minLength" && <p>The length of tax id must be 9</p> }
+			{ errors.taxID?.type === "maxLength" && <p>The length of tax id must be 9</p> }
 			<Grid item>
 			  <Controller
 			    name="businessName"
@@ -50,10 +89,13 @@ export default function RequestLoanForm({ setDecision }) {
 										 {...field}
 										 label="Business name"
 										 type="text"
+										 id="filled-basic"
+										 variant="filled"
+										 className={classes.textField}
 									   />}
 			  />
-			  { errors.businessName && <p>The business name is required</p> }
 			</Grid>
+			{ errors.businessName && <p>The business name is required</p> }
 			<Grid item>
 			  <Controller
 			    name="requestedAmount"
@@ -63,13 +105,22 @@ export default function RequestLoanForm({ setDecision }) {
 										 {...field}
 										 label="Requested amount"
 										 type="number"
+										 id="filled-basic"
+										 variant="filled"
+										 InputProps={{
+                                           startAdornment: <InputAdornment position="start">
+														     $
+														   </InputAdornment>,
+										   classes: {adornedStart: classes.adornedStart},
+                                         }}
+										 className={classes.textField}
 									   />}
 			  />
-			  { errors.requestedAmount?.type === "required" && <p>The requested amount is required</p> }
-			  { errors.requestedAmount?.type === "min" && <p>The requested amount must be greater than 0</p> }
 			</Grid>
+			{ errors.requestedAmount?.type === "required" && <p>The requested amount is required</p> }
+			{ errors.requestedAmount?.type === "min" && <p>The requested amount must be greater than 0</p> }
 			<hr />
-			<Button variant="contained" color="primary" type="submit">
+			<Button variant="contained" color="primary" type="submit" className={classes.button}>
 			  Request loan
 			</Button>
 		  </Grid>
